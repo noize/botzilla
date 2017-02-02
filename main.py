@@ -16,7 +16,7 @@ class irc_bot:
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connection.connect((self.server, self.port))
         self.register()
-        while(True): # for debug purpouses lel
+        while(True): # for debug purpouses
             print self.connection.recv(1024)
 
     def register(self):
