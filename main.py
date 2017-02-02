@@ -23,12 +23,25 @@ class irc_bot:
 
     def say(self, message):
         self.connection.send("PRIVMSG {} :{}\n\n".format(self.channel, message))
+        while 1: 
+            time.sleep(0.1) 
+            try: 
+                text = self.connection.recv(2040) 
+                print text  
+            except Exception: 
+                pass
+
+            if text.lower().find(":hii")!=-1: 
+                self.connection.send("PRIVMSG {} :Im responding\r\n".format(self.channel)) 
+            text="" 
+        input() 
+        
 
 if (__name__ == "__main__"):
     conf = bot_config
-    conf.nick = "testBotzillaBot"
+    conf.nick = "PetrasTestBotzillaBot"
     bot = irc_bot("irc.freenode.net", 6667, "#BotzillaBotTesting", conf)
     bot.connect()
     bot.register()
-    bot.say("Look ma! I can talk now")
+    bot.say("Test")
     while(True):pass #should be replaced later with more productive loop
