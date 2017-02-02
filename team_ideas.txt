@@ -1,0 +1,40 @@
+THIS FILE IS FOR THE EXCHANGE AND DISCUSSION BETWEEN OUR TEAM MEMBERS (JJ, Noize, and Petras (Shadow is doing his own thing rn).
+IT IS ALSO A PLACE FOR US TO TALK ABOUT THE CHANGES WE MAKE WHEN WE WANT TO LEAVE A MESSAGE.
+______________________________________________________________________________________
+
+ _______             _______
+|@|@|@|@|           |@|@|@|@|
+|@|@|@|@|   _____   |@|@|@|@|
+|@|@|@|@| /\_T_T_/\ |@|@|@|@|
+|@|@|@|@||/\ T T /\||@|@|@|@|
+ ~/T~~T~||~\/~T~\/~||~T~~T\~
+  \|__|_| \(-(O)-)/ |_|__|/
+  _| _|    \\8_8//    |_ |_
+|(@)]   /~~[_____]~~\   [(@)|
+  ~    (  |       |  )    ~
+      [~` ]       [ '~]
+      |~~|         |~~|
+      |  |         |  |
+     _<\/>_       _<\/>_
+    /_====_\     /_====_\
+    
+    
+    
+  main bot loop description:
+    a bot instance exists simply as an endless loop. The botcontinuously reads each message from the IRC server...
+    for each message it recieves, it passes that to a message handler function to be evaluated. The message handler function
+    has a specific job, and that is to judge each message and tell whether or not the bot should react to it.
+    The message handler needs to ...
+    1. Check to see if the message is a PING message. If it is, it the bot needs to PONG back to the server.
+    2. Check to see if any of the user supplied functions call to react to that message. For example, let's say that the programmer
+       who uses our module wants the bot to execute a certain function he wrote whenever a message on the channel was seen with the 
+       word "triggered". The message handler must then test to see if the message contained the word "triggered", if it does,
+       it then executes that programmers function.
+       
+       Note: I think that regular expressions would be very useful for this.
+       
+  So my main though is this, the programmer using our module creates a bot object, then supplies it with a list of regular 
+  expressions that corresponds to a list of functions. The bot then loops, as described earlier, and tests each regular expression 
+  with the message. If the regular expression and message match, the corresponding function is executed.
+  
+    - Noize
