@@ -1,4 +1,7 @@
 import socket, time
+import threading
+import sys
+#from queue import Queue
 
 """ bot_config class used to package information to give to bot so it can do its thing """
 class bot_config:
@@ -21,21 +24,33 @@ class irc_bot:
         self.connection.send("NICK {}\n\n".format(self.botconfig.nick))
         self.connection.send("JOIN {}\n\n".format(self.channel))
 
+    
+    
+    
     def say(self, message):
         self.connection.send("PRIVMSG {} :{}\n\n".format(self.channel, message))
-        while 1: 
-            time.sleep(0.1) 
+        userInput = True
+    
+
+        while userInput: 
+            time.sleep(0.1)
+            
             try: 
                 text = self.connection.recv(2040) 
                 print text  
             except Exception: 
                 pass
 
-            if text.lower().find(":hii")!=-1: 
+            if text.lower().find(":hi")!=-1: 
                 self.connection.send("PRIVMSG {} :Im responding\r\n".format(self.channel)) 
-            text="" 
-        input() 
+
+            text=""
+
+            
+            if userInput == "exit":
+                break
         
+        userInput = raw_input("Type exit, to exit: ") 
 
 if (__name__ == "__main__"):
     conf = bot_config
@@ -43,5 +58,15 @@ if (__name__ == "__main__"):
     bot = irc_bot("irc.freenode.net", 6667, "#BotzillaBotTesting", conf)
     bot.connect()
     bot.register()
-    bot.say("Test")
+    
+    threading1 = threading.Thread(target=bot.say("hi"))
+    threading1.daemon = True
+    threading1.start()
+
+    while userInput
+    userInput = raw_input("Enter exit")
+    global userInput
+    
+    
     while(True):pass #should be replaced later with more productive loop
+

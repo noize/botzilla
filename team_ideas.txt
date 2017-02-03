@@ -19,7 +19,31 @@ ________________________________________________________________________________
     /_====_\     /_====_\
     
     
-    
+	
+For the message evaluating, and sending, what if we were to use a dictionary. So the keys would be equal to a string of what we want to 
+check from the users message, and the value is a call to some function that makes the bot speak. 
+So the code would (roughly) be something like this:
+
+	def say(message):
+		socket.send(message) //I know this isnt correct, but you should get the idea
+	
+	stringsToCheck = {
+		"hi":say("Hellooo")
+	}
+
+	text = self.connection.recv(2040) 
+	
+	for key in stringsToCheck:
+		if key == text:
+			stringsToCheck[key]
+			
+This obviously wouldn't work as is, however, i believe this is a simple way to make it work. 
+You guys are better with python, so please tell me if this wouldnt work, if theres a better way to do it, etc.
+	
+-Petras
+ 
+
+ 
   main bot loop description:
     a bot instance exists simply as an endless loop. The botcontinuously reads each message from the IRC server...
     for each message it recieves, it passes that to a message handler function to be evaluated. The message handler function
