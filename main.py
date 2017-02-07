@@ -44,19 +44,14 @@ class irc_bot:
                 if text.lower().find(":{}".format(key.lower()))!=-1:
                     self.say(d[key])
             text=""
-            
-            
-
-            
-             
-    
     
     def say(self, message):
         self.connection.send("PRIVMSG {} :{}\r\n".format(self.channel, message))
+        
             
 if (__name__ == "__main__"):
     conf = bot_config
-    conf.nick = "PetrasTestBotzillaBot"
+    conf.nick = "BotzillaBot"
     bot = irc_bot("irc.freenode.net", 6667, "#BotzillaBotTesting", conf)
     bot.connect()
     bot.register()
