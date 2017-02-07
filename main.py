@@ -25,48 +25,45 @@ class irc_bot:
         self.connection.send("JOIN {}\n\n".format(self.channel))
 
     
-    
-    
-    def say(self, message):
-        self.connection.send("PRIVMSG {} :{}\n\n".format(self.channel, message))
-        userInput = True
-    
-
-        while userInput: 
-            time.sleep(0.1)
-            
+    def evaluateMessages(self, **dict_to_check):
+        
+        d = dict_to_check
+        
+        loopRun = True
+        
+        while loopRun:
             try: 
                 text = self.connection.recv(2040) 
                 print text  
             except Exception: 
                 pass
 
-            if text.lower().find(":hi")!=-1: 
-                self.connection.send("PRIVMSG {} :Im responding\r\n".format(self.channel)) 
-
+            for key in d:
+                print key.lower()
+                
+                if text.lower().find(":{}".format(key.lower()))!=-1:
+                    self.say(d[key])
             text=""
+            
+            
 
             
-            if userInput == "exit":
-                break
-        
-        userInput = raw_input("Type exit, to exit: ") 
-
+             
+    
+    
+    def say(self, message):
+        self.connection.send("PRIVMSG {} :{}\r\n".format(self.channel, message))
+            
 if (__name__ == "__main__"):
     conf = bot_config
     conf.nick = "PetrasTestBotzillaBot"
     bot = irc_bot("irc.freenode.net", 6667, "#BotzillaBotTesting", conf)
     bot.connect()
     bot.register()
-    
-    threading1 = threading.Thread(target=bot.say("hi"))
-    threading1.daemon = True
-    threading1.start()
 
-    while userInput
-    userInput = raw_input("Enter exit")
-    global userInput
+    messagesToCheck = {"Hello" : "Hi im responding",
+                       "Test" : "Responding to test"}
     
-    
+    bot.evaluateMessages(**messagesToCheck)
     while(True):pass #should be replaced later with more productive loop
 
