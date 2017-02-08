@@ -1,4 +1,7 @@
 import socket, time
+import threading
+import sys
+#from queue import Queue
 
 """ bot_config class used to package information to give to bot so it can do its thing """
 class bot_config:
@@ -21,14 +24,41 @@ class irc_bot:
         self.connection.send("NICK {}\n\n".format(self.botconfig.nick))
         self.connection.send("JOIN {}\n\n".format(self.channel))
 
-    def say(self, message):
-        self.connection.send("PRIVMSG {} :{}\n\n".format(self.channel, message))
+    
+    def evaluateMessages(self, **dict_to_check):
+        
+        d = dict_to_check
+        
+        loopRun = True
+        
+        while loopRun:
+            try: 
+                text = self.connection.recv(2040) 
+                print text  
+            except Exception: 
+                pass
 
+            for key in d:
+                print key.lower()
+                
+                if text.lower().find(":{}".format(key.lower()))!=-1:
+                    self.say(d[key])
+            text=""
+    
+    def say(self, message):
+        self.connection.send("PRIVMSG {} :{}\r\n".format(self.channel, message))
+        
+            
 if (__name__ == "__main__"):
     conf = bot_config
-    conf.nick = "testBotzillaBot"
+    conf.nick = "BotzillaBot"
     bot = irc_bot("irc.freenode.net", 6667, "#BotzillaBotTesting", conf)
     bot.connect()
     bot.register()
-    bot.say("Look ma! I can talk now")
+
+    messagesToCheck = {"Hello" : "Hi im responding",
+                       "Test" : "Responding to test"}
+    
+    bot.evaluateMessages(**messagesToCheck)
     while(True):pass #should be replaced later with more productive loop
+
